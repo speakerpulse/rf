@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F7F7F5] text-[#2A2A2A] font-sans antialiased selection:bg-[#E5E5E0] selection:text-[#1A1A1A];
+  }
+}
