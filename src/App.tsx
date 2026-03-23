@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Map, Activity, Home, Compass, Menu, X } from 'lucide-react';
 import TravelMap from './components/TravelMap';
+import AudioPlayer from './components/AudioPlayer';
 
 // --- Components ---
 
@@ -148,6 +149,8 @@ const Guide = ({ name }: { name: string }) => {
 
   return (
     <div className="min-h-[100dvh] bg-transparent pb-32">
+      <AudioPlayer />
+      
       {/* Navigation Burger */}
       <div className="fixed top-6 right-6 z-50">
         <button
