@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, Map, Activity, Home, Compass } from 'lucide-react';
+import { ArrowRight, Map, Activity, Home, Compass, Menu, X } from 'lucide-react';
 import TravelMap from './components/TravelMap';
 
 // --- Components ---
 
-const FadeInSection = ({ children, delay = 0, className = '' }: { children: React.ReactNode, delay?: number, className?: string }) => (
+const FadeInSection = ({ children, delay = 0, className = '', id }: { children: React.ReactNode, delay?: number, className?: string, id?: string }) => (
   <motion.div
+    id={id}
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
@@ -93,8 +94,8 @@ const EntryGate = ({ onEnter }: { onEnter: (name: string) => void }) => {
   );
 };
 
-const Chapter = ({ title, children }: { title: string, children: React.ReactNode }) => (
-  <FadeInSection className="py-20 md:py-28 border-t border-[#E6E4DD] first:border-0 relative">
+const Chapter = ({ title, children, id }: { title: string, children: React.ReactNode, id?: string }) => (
+  <FadeInSection id={id} className="py-20 md:py-28 border-t border-[#E6E4DD] first:border-0 relative">
     <h2 className="font-serif text-4xl md:text-5xl text-[#1C1B1A] mb-10 font-light tracking-tight">{title}</h2>
     <div className="text-[#595854] font-light leading-[1.8] text-lg md:text-xl space-y-8">
       {children}
@@ -127,8 +128,92 @@ const TagList = ({ tags }: { tags: string[] }) => (
 );
 
 const Guide = ({ name }: { name: string }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: 'O mnie', href: '#o-mnie' },
+    { label: 'Ludzie i relacje', href: '#relacje' },
+    { label: 'Wspólny czas', href: '#czas' },
+    { label: 'Aktualnie', href: '#aktualnie' },
+  ];
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-[100dvh] bg-[#F5F4F0] pb-32 selection:bg-[#E6E4DD] selection:text-[#1C1B1A]">
+      {/* Navigation Burger */}
+      <div className="fixed top-6 right-6 z-50">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="w-12 h-12 flex items-center justify-center bg-white/80 backdrop-blur-md border border-[#E6E4DD] rounded-full text-[#1C1B1A] shadow-sm hover:shadow-md transition-all duration-300"
+          aria-label="Menu"
+        >
+          <AnimatePresence mode="wait">
+            {isMenuOpen ? (
+              <motion.div
+                key="close"
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.2 }}
+              >
+                <X size={20} strokeWidth={1.5} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="menu"
+                initial={{ opacity: 0, rotate: 90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: -90 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Menu size={20} strokeWidth={1.5} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </button>
+      </div>
+
+      {/* Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-[#F5F4F0]/95 backdrop-blur-xl flex items-center justify-center p-6"
+          >
+            <nav className="text-center">
+              <ul className="space-y-8">
+                {navItems.map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <a
+                      href={item.href}
+                      onClick={(e) => scrollToSection(e, item.href)}
+                      className="font-serif text-4xl md:text-5xl text-[#1C1B1A] font-light hover:opacity-50 transition-opacity duration-300"
+                    >
+                      {item.label}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header / Introduction */}
       <header className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 max-w-3xl mx-auto">
         <motion.div
@@ -155,7 +240,7 @@ const Guide = ({ name }: { name: string }) => {
 
       <main className="px-6 max-w-3xl mx-auto">
         
-        <Chapter title="O mnie">
+        <Chapter id="o-mnie" title="O mnie">
           <p>
             Jestem raczej spokojnym człowiekiem. Dużo obserwuję i często długo przemyślam różne sprawy, zanim coś powiem albo zdecyduję.
           </p>
@@ -176,7 +261,7 @@ const Guide = ({ name }: { name: string }) => {
           </p>
         </Chapter>
 
-        <Chapter title="Ludzie i relacje">
+        <Chapter id="relacje" title="Ludzie i relacje">
           <p>
             Na co dzień jestem raczej cichy i dużo myślę. Kiedy już dojdę do jakiejś wykrystalizowanej myśli, raczej wypowiadam się dosyć jasno i tego nie skrywam.
           </p>
@@ -191,7 +276,7 @@ const Guide = ({ name }: { name: string }) => {
           </p>
         </Chapter>
 
-        <Chapter title="Wspólny czas">
+        <Chapter id="czas" title="Wspólny czas">
           <p>
             Czas spędzany razem to dla mnie fundament poznawania się i bycia razem. Poniżej kilka obszarów, które pokazują w skrócie, jak lubię spędzać czas.
           </p>
@@ -265,7 +350,7 @@ const Guide = ({ name }: { name: string }) => {
             <p>
               Wcześniej zajmowałem się sportem intensywnie i nie ograniczałem się do jednego czy dwóch. Przez długi czas wiele z nich odłożyłem na bok, ale teraz coraz częściej do nich wracam myślami i wracam/planuję powrót w tym roku.
             </p>
-            <TagList tags={['rower', 'bieganie', 'koszykówka', 'piłka nożna', 'siłownia', 'narty', 'rolki', 'łyżwy', 'siatkówka']} />
+            <TagList tags={['rower', 'bieganie', 'koszykówka', 'piłka nożna', 'siłownia', 'narty', 'rolki', 'łyżwy', 'siatkówka', 'pływanie']} />
             <p>
               Mam też takie poczucie, że wiele z tych aktywności jest po prostu przyjemniejszych, kiedy można je robić z drugą osobą. To nie jest warunek, ale gdzieś z tyłu głowy mam taką potrzebę, żeby móc dzielić takie rzeczy z kimś.
             </p>
@@ -284,7 +369,7 @@ const Guide = ({ name }: { name: string }) => {
           </SubSection>
         </Chapter>
 
-        <Chapter title="Aktualnie">
+        <Chapter id="aktualnie" title="Aktualnie">
           <p>
             Nie będę wchodzić tutaj w bardzo prywatne szczegóły :) Mogę powiedzieć tyle, że od około roku zacząłem stopniowo wprowadzać w swoim życiu różne zmiany. Teraz robię to bardziej świadomie i intensywnie.
           </p>
