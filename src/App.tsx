@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Map, Activity, Home, Compass, Menu, X } from 'lucide-react';
 import TravelMap from './components/TravelMap';
 import AudioPlayer from './components/AudioPlayer';
+import { Analytics } from "@vercel/analytics/next";
 
 // --- Components ---
 
