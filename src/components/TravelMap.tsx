@@ -149,9 +149,9 @@ export const countryData: Record<string, CountryStatus> = {
   "Thailand": "want-medium",
   "Timor-Leste": "no-opinion",
   "Turkey": "visited-gladly-return",
-  "Turkmenistan": "want-medium",
+  "Turkmenistan": "no-opinion",
   "United Arab Emirates": "visited-gladly-return",
-  "Uzbekistan": "no-opinion",
+  "Uzbekistan": "want-medium",
   "Vietnam": "want-medium",
   "Yemen": "no-opinion",
 
@@ -240,13 +240,13 @@ const STATUS_COLORS: Record<CountryStatus, string> = {
 };
 
 const STATUS_LABELS: Record<CountryStatus, string> = {
-  'visited-must-return': 'Byłem, muszę wrócić',
-  'visited-gladly-return': 'Byłem, chętnie wrócę',
-  'visited-yuck': 'Byłem, tfu',
-  'want-high': 'Bardzo chcę',
-  'want-medium': 'Chcę',
-  'want-low': 'Raczej nie chcę',
-  'visited-want-cannot': 'Byłem, chcę, nie mogę',
+  'visited-must-return': 'Byłem tu, muszę wracać (zwariuję od niezrealizowanych planów w głowie)',
+  'visited-gladly-return': 'Byłem tu, chętnie wrócę',
+  'visited-yuck': 'Niestety tu byłem, tfu. Nie jestem psychopatą, ale tam się nim staję.',
+  'want-high': 'Bardzo chcę zobaczyć (zwariuję jeśli nie zobaczę)',
+  'want-medium': 'Chcę zobaczyć',
+  'want-low': 'Raczej nie chcę się tam znaleźć',
+  'visited-want-cannot': 'Byłem tu, lubię te miejsca, niestety nie mogę na razie tam jeździć',
   'no-opinion': 'Brak zdania'
 };
 
