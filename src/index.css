@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -7,6 +8,19 @@
 
 @layer base {
   body {
-    @apply bg-[#F7F7F5] text-[#2A2A2A] font-sans antialiased selection:bg-[#E5E5E0] selection:text-[#1A1A1A];
+    @apply bg-[#F9F8F6] text-[#2C2A28] font-sans antialiased selection:bg-[#E2DFD8] selection:text-[#1A1A1A];
+    overflow-x: hidden;
   }
+}
+
+.cultural-card {
+  @apply bg-white rounded-[32px] shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#F0EFEA] transition-all duration-500;
+}
+
+.cultural-card:hover {
+  @apply shadow-[0_12px_40px_rgba(0,0,0,0.05)] -translate-y-1;
+}
+
+.accent-text {
+  @apply text-[#8A7E71];
 }

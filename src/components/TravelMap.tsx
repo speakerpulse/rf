@@ -229,14 +229,14 @@ export const countryData: Record<string, CountryStatus> = {
 };
 
 const STATUS_COLORS: Record<CountryStatus, string> = {
-  'visited-must-return': '#1C1B1A',      // Ciemny atrament (bardzo wyraźny)
-  'visited-gladly-return': '#4A5D23',    // Głęboka zieleń/oliwka
-  'visited-yuck': '#8C3A3A',             // Zgaszona czerwień
-  'want-high': '#3A5A6B',                // Ciemny morski/niebieski
-  'want-medium': '#7A9E9F',              // Jasny morski/niebieski
-  'want-low': '#B5B5B5',                 // Neutralny szary
-  'visited-want-cannot': '#C28E5C',      // Terakota/zgaszony pomarańcz
-  'no-opinion': '#E6E4DD'                // Jasny beż (domyślny)
+  'visited-must-return': '#4A5340',      // Olive
+  'visited-gladly-return': '#7A8B6A',    // Sage
+  'visited-yuck': '#A67C7C',             // Muted Rose
+  'want-high': '#C48B71',                // Terracotta
+  'want-medium': '#D4A373',              // Sand/Gold
+  'want-low': '#B5B0A1',                 // Warm Gray
+  'visited-want-cannot': '#8A7E71',      // Taupe
+  'no-opinion': '#EAE8E3'                // Light Beige
 };
 
 const STATUS_LABELS: Record<CountryStatus, string> = {
@@ -277,11 +277,11 @@ const MapChart = memo(({ setTooltipContent }: { setTooltipContent: (content: str
                   key={geo.rsmKey}
                   geography={geo}
                   fill={color}
-                  stroke="#F5F4F0"
+                  stroke="#F9F8F6"
                   strokeWidth={0.5}
                   style={{
                     default: { outline: "none" },
-                    hover: { fill: "#D4A373", outline: "none", cursor: "pointer", transition: "all 200ms" },
+                    hover: { fill: "#C48B71", outline: "none", cursor: "pointer", transition: "all 200ms" },
                     pressed: { outline: "none" },
                   }}
                   onMouseEnter={() => {
@@ -318,19 +318,19 @@ export default function TravelMap() {
   return (
     <div className="w-full mt-12 mb-4">
       {/* Legenda */}
-      <div className="flex flex-wrap gap-x-6 gap-y-3 mb-8 text-sm bg-white/50 p-6 rounded-2xl border border-[#E6E4DD]">
-        <div className="w-full mb-2 text-xs font-medium text-[#8C8B88] uppercase tracking-widest">Legenda mapy</div>
+      <div className="flex flex-wrap gap-x-6 gap-y-3 mb-8 text-sm cultural-card p-6">
+        <div className="w-full mb-2 text-xs font-medium accent-text uppercase tracking-widest">Legenda mapy</div>
         {(Object.keys(STATUS_LABELS) as CountryStatus[]).map(status => (
           <div key={status} className="flex items-center gap-2.5">
             <div className="w-3.5 h-3.5 rounded-full shadow-sm" style={{ backgroundColor: STATUS_COLORS[status] }} />
-            <span className="text-[#595854] font-light">{STATUS_LABELS[status]}</span>
+            <span className="text-[#6B6965] font-light">{STATUS_LABELS[status]}</span>
           </div>
         ))}
       </div>
 
       {/* Mapa */}
       <div 
-        className="bg-white/50 border border-[#E6E4DD] rounded-3xl overflow-hidden shadow-sm relative touch-pan-y"
+        className="cultural-card overflow-hidden relative touch-pan-y"
         data-tooltip-id="map-tooltip"
         data-tooltip-content={content}
       >
@@ -339,18 +339,19 @@ export default function TravelMap() {
           id="map-tooltip" 
           float
           style={{ 
-            backgroundColor: '#1C1B1A', 
-            color: '#F5F4F0', 
-            borderRadius: '8px', 
-            padding: '8px 12px', 
+            backgroundColor: '#2C2A28', 
+            color: '#F9F8F6', 
+            borderRadius: '12px', 
+            padding: '8px 16px', 
             fontSize: '14px', 
             zIndex: 100,
             fontFamily: 'Inter, sans-serif',
-            fontWeight: 300
+            fontWeight: 300,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
           }} 
         />
       </div>
-      <p className="text-xs text-[#8C8B88] mt-4 text-center italic">
+      <p className="text-xs accent-text mt-4 text-center italic">
         * Możesz przybliżać i przesuwać mapę. Naciśnij na kraj, aby zobaczyć szczegóły.
         ** Krym mapka pokazuje rosyjski, oczywiście jest ukraiński :)
         *** Niektóre państwa niby chcę zobaczyć i są dodane jako takie, ale w tym momencie oczywiście odwiedzić np. Iran czy Izrael byłoby głupotą.
